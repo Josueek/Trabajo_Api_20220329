@@ -12,7 +12,7 @@ export default function PokemonItem({ item }) {
         style={styles.image}
       />
       <Text style={styles.title}>{item.name}</Text>
-      <Text style={styles.abilities}>Habilidades: {item.abilities}</Text>
+      <Text style={styles.habilidad}>Habilidades: {item.habilidad}</Text>
     </View>
   );
 }
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     textTransform: 'capitalize',
   },
-  abilities: {
+  habilidad: {
     fontSize: 14,
     textAlign: 'center',
     marginTop: 5,

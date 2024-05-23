@@ -10,7 +10,7 @@ export default function PokemonAxios() {
   const [pokemon, setPokemon] = useState([]);
   const [nPokemon, setNPokemon] = useState(0); // La API comenzará mostrando solamente 25 pokemones
   const [loading, setLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [BuscarPoke, setBuscarPoke] = useState('');
 
   useEffect(() => {
     getPokemon(nPokemon);
@@ -29,7 +29,7 @@ export default function PokemonAxios() {
         return {
           ...pokemon,
           id: details.id,
-          abilities: translatedAbilities,
+          habilidad: translatedAbilities,
         };
       }));
 
@@ -51,7 +51,7 @@ export default function PokemonAxios() {
     return abilitiesDict[abilityName.toLowerCase()] || abilityName;
   };
 
-  const filteredPokemon = pokemon.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredPokemon = pokemon.filter(p => p.name.toLowerCase().includes(BuscarPoke.toLowerCase()));
 
   const renderItem = ({ item }) => {
     return (
@@ -62,7 +62,7 @@ export default function PokemonAxios() {
           source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.id}.png` }}
         />
         <Text style={styles.title}>{item.name}</Text>
-        <Text style={styles.abilities}>Habilidades: {item.abilities}</Text>
+        <Text style={styles.habilidad}>Habilidad: {item.habilidad}</Text>
       </View>
     );
   };
@@ -79,8 +79,8 @@ export default function PokemonAxios() {
       <TextInput
         style={styles.searchInput}
         placeholder="Buscar Pokémon por nombre"
-        value={searchQuery}
-        onChangeText={setSearchQuery}
+        value={BuscarPoke}
+        onChangeText={setBuscarPoke}
       />
       {loading ? (
         <ActivityIndicator style={styles.loading} size="large" color="#0000ff" />
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     textTransform: 'capitalize',
   },
-  abilities: {
+  habilidad: {
     fontSize: 14,
     textAlign: 'center',
     marginTop: 5,

@@ -6,7 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import PokemonList from '../screens/PokemonList';
 import HomeScreen from '../screens/HomeScreen';
 import PokemonAxios from '../screens/PokemonAxios';
-import GithubSearch from '../screens/GithubSeacrh';
+
 
 // Navegador Bottom Tabs Navigator
 const Tab = createBottomTabNavigator();
@@ -58,21 +58,6 @@ export default function BottomTab() {
     headerTintColor: '#fff',
     tabBarIcon: ({ color }) => (
       <Ionicons name="list" color={color} size={24} />
-    ),
-  }}
-/>
-<Tab.Screen
-  name="API GitHub"
-  component={GithubSearch}
-  options={{
-    title: 'GitHubs',
-    tabBarActiveTintColor: '#3b4cca',
-    headerStyle: {
-      backgroundColor: '#3b4cca',
-    },
-    headerTintColor: '#fff',
-    tabBarIcon: ({ color }) => (
-      <Ionicons name="search" color={color} size={24} />
     ),
   }}
 />

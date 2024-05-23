@@ -19,14 +19,14 @@ export default function PokemonList() {
       const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${cantidadPokemon}`);
       const data = await response.json();
 
-      const detailedData = await Promise.all(data.results.map(async (result, index) => {
+      const detailedData = await Promise.all(data.results.map(async (result) => {
         const detailsResponse = await fetch(result.url);
         const details = await detailsResponse.json();
-        const abilities = await getAbilitiesInSpanish(details.abilities);
+        const habilidades = await getHabilidadesInSpanish(details.abilities);
         return {
           ...result,
-          id: index + 1,
-          abilities: abilities.join(', '),
+          id: details.id,
+          habilidad: habilidades.join(', '),
         };
       }));
 
@@ -42,14 +42,15 @@ export default function PokemonList() {
     fetchData();
   }, [cantidadPokemon]);
 
-  const getAbilitiesInSpanish = async (abilities) => {
+  const getHabilidadesInSpanish = async (abilities) => {
     try {
-      const abilitiesInSpanish = await Promise.all(abilities.map(async (ability) => {
+      const habilidadesInSpanish = await Promise.all(abilities.map(async (ability) => {
         const response = await fetch(ability.ability.url);
         const data = await response.json();
-        return data.names.find(name => name.language.name === "es").name;
+        const nameInSpanish = data.names.find(name => name.language.name === "es");
+        return nameInSpanish ? nameInSpanish.name : ability.ability.name;
       }));
-      return abilitiesInSpanish;
+      return habilidadesInSpanish;
     } catch (error) {
       console.log("Hubo un error obteniendo las habilidades en español", error);
       return abilities.map(ability => ability.ability.name);
@@ -69,7 +70,7 @@ export default function PokemonList() {
       />
       <TextInput
         style={styles.searchInput}
-        placeholder="Buscar Pokémon por nombre"
+        placeholder="Buscar por nombre"
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
@@ -100,7 +101,6 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
-    width: WIDTH / numColumns - 10,
     borderRadius: 50,
     paddingHorizontal: 10,
     marginVertical: 20,
